@@ -85,8 +85,8 @@ void drawSnake() {
 
 void drawTail() {
   //Draw each segment of the tail
-  for(int i = 0; i < 0; i++){
-    rect(, , 10, 10); 
+  for(int i = 0; i < tail.length; i++){
+    rect(, , 10, 10);
   }
 }
 
@@ -95,6 +95,9 @@ void manageTail() {
   //This produces the illusion of the snake tail moving.
   checkTailCollision();
   drawTail();
+  tail = new Segment[tail.length + 1];
+  tail[tail.length].x = head.x;
+  tail[tail.length].y = head.y;
   
 }
 
@@ -104,6 +107,9 @@ void checkTailCollision() {
      if(head.x == tail[j].x && head.y == tail[j].y){
         foodEaten = 0;
         tail = new Segment[0];
+        tail = new Segment[tail.length + 1];
+        tail[tail.length].x = head.x;
+        tail[tail.length].y = head.y;
      }
   }
 }
@@ -182,6 +188,8 @@ void eat() {
     foodEaten = foodEaten + 1;
     foodX = ((int)random(50)*10);
     foodY = ((int)random(50)*10);
-
+    tail = new Segment[tail.length + 1];
+    tail[tail.length].x = head.x;
+    tail[tail.length].y = head.y;
   }
 }
