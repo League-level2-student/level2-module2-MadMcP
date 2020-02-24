@@ -28,7 +28,7 @@ int foodX;
 int foodY;
 int direction = UP;
 int foodEaten = 0;
-Segment[] tail = new Segment[0];
+ArrayList<Segment> tail = new ArrayList<Segment>();
 
 //*
 // ***** SETUP METHODS *****
@@ -38,7 +38,7 @@ Segment[] tail = new Segment[0];
 void setup() {
   size(500, 500);
   head = new Segment(50, 50);
-  frameRate(2.0);
+  frameRate(20);
   dropFood();
 }
 
@@ -85,8 +85,8 @@ void drawSnake() {
 
 void drawTail() {
   //Draw each segment of the tail
-  for(int i = 0; i < tail.length; i++){
-    rect(, , 10, 10);
+  for(int i = 0; i < foodEaten; i++){
+    rect(tail.get(i).x, tail.get(i).y, 10, 10);
   }
 }
 
@@ -95,21 +95,19 @@ void manageTail() {
   //This produces the illusion of the snake tail moving.
   checkTailCollision();
   drawTail();
-  tail = new Segment[tail.length + 1];
-  tail[tail.length].x = head.x;
-  tail[tail.length].y = head.y;
-  
+  Segment a = new Segment(head.x, head.y);
+  tail.add(a);
+  tail.remove(0);
 }
 
 void checkTailCollision() {
   //If the snake crosses its own tail, shrink the tail back to one segment
-  for(int j = 0; j < tail.length; j++){
-     if(head.x == tail[j].x && head.y == tail[j].y){
+  for(int j = 0; j < foodEaten; j++){
+     if(head.x == tail.get(j).x && head.y == tail.get(j).y){
         foodEaten = 0;
-        tail = new Segment[0];
-        tail = new Segment[tail.length + 1];
-        tail[tail.length].x = head.x;
-        tail[tail.length].y = head.y;
+        tail.clear();
+        Segment a = new Segment(head.x, head.y);
+        tail.add(a);
      }
   }
 }
@@ -188,8 +186,7 @@ void eat() {
     foodEaten = foodEaten + 1;
     foodX = ((int)random(50)*10);
     foodY = ((int)random(50)*10);
-    tail = new Segment[tail.length + 1];
-    tail[tail.length].x = head.x;
-    tail[tail.length].y = head.y;
+    Segment a = new Segment(head.x, head.y);
+    tail.add(a);
   }
 }
